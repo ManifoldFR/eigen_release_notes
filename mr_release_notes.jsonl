@@ -1067,7 +1067,6 @@
 {"#1814": {"supported/other_fixed": "[#1814](https://gitlab.com/libeigen/eigen/-/merge_requests/1814): Added missing return statements in PowerPC architecture implementation to improve code reliability"}}
 {"#1809": {"supported/other_improved": "[#1809](https://gitlab.com/libeigen/eigen/-/merge_requests/1809): Improved tensor documentation by correcting class name references and streamlining documentation"}}
 {"#1815": {"supported/other_improved": "[#1815](https://gitlab.com/libeigen/eigen/-/merge_requests/1815): Updated check for `std::hardware_destructive_interference_size` to improve compatibility on Android platforms"}}
-{"#1816": {"supported/other_fixed": "[#1816](https://gitlab.com/libeigen/eigen/-/merge_requests/1816): Fix Android NDK compatibility issue with `__cpp_lib_hardware_interference_size` macro"}}
 {"#1817": {"supported/other_improved": "[#1817](https://gitlab.com/libeigen/eigen/-/merge_requests/1817): Introduced `EIGEN_CI_CTEST_ARGS` for custom test timeout control and standardized ctest-related argument naming"}}
 {"#1818": {"supported/other_improved": "[#1818](https://gitlab.com/libeigen/eigen/-/merge_requests/1818): Improved documentation generation with nightly Doxygen builds and enhanced error handling"}}
 {"#1823": {"supported/other_improved": "[#1823](https://gitlab.com/libeigen/eigen/-/merge_requests/1823): Added graphviz dependency to improve documentation build and graph rendering"}}
@@ -1101,3 +1100,4 @@
 {"#1850": {"supported/other_fixed": "[#1850](https://gitlab.com/libeigen/eigen/-/merge_requests/1850): Fixed x86 complex vectorized FMA implementation to improve computational accuracy and performance"}}
 {"#1778": {"supported/other_added": "[#1778](https://gitlab.com/libeigen/eigen/-/merge_requests/1778): Added `install-doc` CMake target for documentation installation"}}
 {"#1851": {"supported/other_fixed": "[#1851](https://gitlab.com/libeigen/eigen/-/merge_requests/1851): Fixed implementation of Givens rotation algorithm to improve accuracy and reliability"}}
+{"#1680": {"unsupported/other_improved": "[#1680](https://gitlab.com/libeigen/eigen/-/merge_requests/1680): Enhances TensorChipping by detecting \"effectively inner/outer\" chipping with stride optimization"}}
