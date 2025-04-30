@@ -556,6 +556,8 @@
 - [#1835](https://gitlab.com/libeigen/eigen/-/merge_requests/1835): Resolved bitwise operation compilation error when compiling with C++26
 - [#1841](https://gitlab.com/libeigen/eigen/-/merge_requests/1841): Fixed documentation job configuration for nightly builds
 - [#1842](https://gitlab.com/libeigen/eigen/-/merge_requests/1842): Resolved CMake BOOST warning by updating configuration to eliminate deprecated behavior
+- [#1850](https://gitlab.com/libeigen/eigen/-/merge_requests/1850): Fixed x86 complex vectorized FMA implementation to improve computational accuracy and performance
+- [#1851](https://gitlab.com/libeigen/eigen/-/merge_requests/1851): Fixed implementation of Givens rotation algorithm to improve accuracy and reliability
 
 ### Improved
 
@@ -1015,6 +1017,7 @@
 - [#1719](https://gitlab.com/libeigen/eigen/-/merge_requests/1719): Added new tests for `sizeof()` with one dynamic dimension
 - [#1733](https://gitlab.com/libeigen/eigen/-/merge_requests/1733): Added missing AVX `predux_any` functions to enhance vectorized reduction operations
 - [#1758](https://gitlab.com/libeigen/eigen/-/merge_requests/1758): Added test case for `pcast` function with scalar types
+- [#1778](https://gitlab.com/libeigen/eigen/-/merge_requests/1778): Added `install-doc` CMake target for documentation installation
 - [#1805](https://gitlab.com/libeigen/eigen/-/merge_requests/1805): Added `matrixL()` and `matrixU()` functions to fetch L and U factors from IncompleteLUT sparse matrix decomposition
 - [#1812](https://gitlab.com/libeigen/eigen/-/merge_requests/1812): Added automated Doxygen documentation build and deployment to GitLab Pages
 
