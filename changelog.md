@@ -548,7 +548,6 @@
 - [#1810](https://gitlab.com/libeigen/eigen/-/merge_requests/1810): Fixed midpoint calculation in `Eigen::ForkJoinScheduler` to prevent out-of-bounds errors and improve parallel computation reliability
 - [#1814](https://gitlab.com/libeigen/eigen/-/merge_requests/1814): Added missing return statements in PowerPC architecture implementation to improve code reliability
 - [#1816](https://gitlab.com/libeigen/eigen/-/merge_requests/1816): Fix Android NDK compatibility issue with `__cpp_lib_hardware_interference_size` macro
-- [#1816](https://gitlab.com/libeigen/eigen/-/merge_requests/1816): Fix Android NDK compatibility issue with `__cpp_lib_hardware_interference_size` macro
 - [#1825](https://gitlab.com/libeigen/eigen/-/merge_requests/1825): Eliminate type-punning undefined behavior in `Eigen::half` by using safer bit-cast approach
 - [#1831](https://gitlab.com/libeigen/eigen/-/merge_requests/1831): Fixed Power architecture builds for configurations without VSX and POWER8 support
 - [#1833](https://gitlab.com/libeigen/eigen/-/merge_requests/1833): Fixed `Warray-bounds` warning in inner product implementation, preventing potential array access out-of-bounds errors
