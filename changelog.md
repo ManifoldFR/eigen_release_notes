@@ -1129,6 +1129,7 @@
 - [#1509](https://gitlab.com/libeigen/eigen/-/merge_requests/1509): Renamed `generic_fast_tanh_float` to `ptanh_float` for improved code clarity and maintainability
 - [#1645](https://gitlab.com/libeigen/eigen/-/merge_requests/1645): Explicitly capture `this` in lambda expressions in Tensor module to prevent compiler warnings and improve code clarity
 - [#1653](https://gitlab.com/libeigen/eigen/-/merge_requests/1653): Corrected numerous typographical errors across Eigen's documentation and codebase to improve readability
+- [#1680](https://gitlab.com/libeigen/eigen/-/merge_requests/1680): Enhances TensorChipping by detecting "effectively inner/outer" chipping with stride optimization
 - [#1767](https://gitlab.com/libeigen/eigen/-/merge_requests/1767): Update ROCm Docker image to Ubuntu 22.04 for improved stability and reliability
 - [#1768](https://gitlab.com/libeigen/eigen/-/merge_requests/1768): Update ROCm Docker image to Ubuntu 24.04 to address Ninja crashing issue
 - [#1770](https://gitlab.com/libeigen/eigen/-/merge_requests/1770): Experimental Alpine Docker base image for CI to potentially improve build efficiency
