@@ -117,6 +117,8 @@ def main():
               try:
                   debug = False
                   mr_json_str = generate_json_for_mr(mr, debug)
+                  mr_json_str.replace("```json", "")
+                  mr_json_str.replace("```", "")
                   if debug:
                     continue
 
