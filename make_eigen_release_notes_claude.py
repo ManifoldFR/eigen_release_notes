@@ -77,6 +77,8 @@ def generate_json_for_mr(mr: dict, debug=False):
         'breaking_changes' means "Big breaks most users should be aware of"
         """
         "Do not include any extra text or commentary. "
+        "Ensure to enclose between backticks macro names from Eigen (starting with 'EIGEN_'). "
+        "Properly escape quotes inside of the summary using \\\". "
     )
 
     msg = construct_message(mr)
@@ -106,10 +108,10 @@ def main():
     first_try = True
     # Read the CSV file containing merge request details.
     rows = read_csv(input_csv)
-    rows = rows[300:600]
 
     with open(output_file, "a", encoding="utf-8") as outfile:
       with open(bad_output_file, "a", encoding="utf-8") as bad_outfile:
+          print(f"Processing {len(rows)} MRs...")
           for idx, mr in enumerate(rows, start=1):
               if first_try:
                   import pdb; pdb.set_trace()
@@ -139,6 +141,7 @@ def main():
               if idx % 50 == 0:
                   print("Sleeping for 40s")
                   outfile.flush()
+                  bad_outfile.flush()
                   sleep_time = 40
               # Adjust delay if necessary to avoid rate limits.
               time.sleep(sleep_time)
