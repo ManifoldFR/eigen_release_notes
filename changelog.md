@@ -23,7 +23,6 @@
 - [#1254](https://gitlab.com/libeigen/eigen/-/merge_requests/1254): Backwards compatible implementation of DenseBase::select with swapped template argument order
 - [#1280](https://gitlab.com/libeigen/eigen/-/merge_requests/1280): Disabled raw array indexed view access for 1D arrays to prevent potential bugs and improve library safety
 - [#1301](https://gitlab.com/libeigen/eigen/-/merge_requests/1301): Introduces canonical range corrections for Euler angles with new default behavior, potentially breaking existing angle computations
-- [#1383](https://gitlab.com/libeigen/eigen/-/merge_requests/1383): Introduces `EIGEN_TEMPORARY_UNALIGNED_SCALAR_UB` macro to handle unaligned scalar undefined behavior, primarily addressing TensorFlow Lite compatibility issues
 - [#1497](https://gitlab.com/libeigen/eigen/-/merge_requests/1497): Removed non-standard `int` return types and unnecessary arguments from BLAS/LAPACK function interfaces to improve package compatibility
 - [#1520](https://gitlab.com/libeigen/eigen/-/merge_requests/1520): Removes `using namespace Eigen` from blas/common.h to prevent symbol collisions
 - [#1550](https://gitlab.com/libeigen/eigen/-/merge_requests/1550): Modify `rbegin`/`rend` handling for GPU, now explicitly marking unsupported with clearer compile-time errors
@@ -38,7 +37,6 @@
 - [#489](https://gitlab.com/libeigen/eigen/-/merge_requests/489): Added AVX512 and AVX2 support for Packet16i and Packet8i, enhancing vectorization capabilities for integer types
 - [#515](https://gitlab.com/libeigen/eigen/-/merge_requests/515): Adds random matrix generation via SVD with two strategies for generating singular values
 - [#610](https://gitlab.com/libeigen/eigen/-/merge_requests/610): Updates CMake configuration to centralize C++11 standard setting, simplifying build process
-- [#667](https://gitlab.com/libeigen/eigen/-/merge_requests/667): Significantly speeds up tensor reduction performance through loop strip mining and unrolling techniques
 - [#673](https://gitlab.com/libeigen/eigen/-/merge_requests/673): Vectorized implementation of Visitor.h with up to 39% performance improvement using AVX2 instructions
 - [#698](https://gitlab.com/libeigen/eigen/-/merge_requests/698): Optimizes `CommaInitializer` to reuse fixed dimensions more efficiently during matrix block initialization
 - [#702](https://gitlab.com/libeigen/eigen/-/merge_requests/702): Added AVX vectorized implementation for float2half/half2float conversion functions with significant performance improvements
@@ -96,7 +94,6 @@
 - [#1233](https://gitlab.com/libeigen/eigen/-/merge_requests/1233): Vectorized `any()` and `all()` methods, improved performance for matrix operations and custom visitors
 - [#1236](https://gitlab.com/libeigen/eigen/-/merge_requests/1236): Added partial linear access for bfloat16 GEMM MMA, improving performance by 30% with reduced memory loads
 - [#1244](https://gitlab.com/libeigen/eigen/-/merge_requests/1244): Introduces mechanism to specify permutation index types for PartialPivLU and FullPivLU, improving compatibility with Lapacke ILP64 interfaces
-- [#1255](https://gitlab.com/libeigen/eigen/-/merge_requests/1255): Added Matrix Multiply Accumulate (MMA) for BF16 GEMV, achieving 5.0-6.3X performance improvement on Power architecture
 - [#1260](https://gitlab.com/libeigen/eigen/-/merge_requests/1260): Upgrades NaN and Inf detection to use modern C++14 standard features for improved floating-point value handling
 - [#1273](https://gitlab.com/libeigen/eigen/-/merge-requests/1273): Replaced internal pointer typedefs with standard `std::(u)intptr_t` types and removed ICC workaround
 - [#1279](https://gitlab.com/libeigen/eigen/-/merge_requests/1279): Refactors indexed view expressions to enable non-const reference access with symbolic indices
@@ -155,7 +152,6 @@
 - [#613](https://gitlab.com/libeigen/eigen/-/merge_requests/613): Fix `fix<N>` implementation for environments without variable templates support
 - [#614](https://gitlab.com/libeigen/eigen/-/merge_requests/614): Fixed LAPACK test compilation issues with type mismatches in older Fortran code
 - [#621](https://gitlab.com/libeigen/eigen/-/merge_requests/621): Fixed GCC 4.8 ARM compilation issues by improving register constraints and resolving warnings
-- [#628](https://gitlab.com/libeigen/eigen/-/merge_requests/628): Renamed 'vec_all_nan' symbol in cxx11_tensor_expr test to resolve build conflicts with altivec.h on ppc64le platform
 - [#629](https://gitlab.com/libeigen/eigen/-/merge_requests/629): Fixed EIGEN_OPTIMIZATION_BARRIER compatibility for arm-clang compiler
 - [#630](https://gitlab.com/libeigen/eigen/-/merge_requests/630): Fixed AVX2 integer packet issues and corrected AVX512 implementation details
 - [#635](https://gitlab.com/libeigen/eigen/-/merge_requests/635): Fixed tridiagonalization selector issue by modifying `hCoeffs` vector handling to improve type compatibility
@@ -262,7 +258,6 @@
 - [#980](https://gitlab.com/libeigen/eigen/-/merge_requests/980): Fixed signed integer overflow in adjoint test to improve code safety
 - [#987](https://gitlab.com/libeigen/eigen/-/merge_requests/987): Fixed integer shortening warnings in visitor tests
 - [#988](https://gitlab.com/libeigen/eigen/-/merge_requests/988): Fixed MSVC build issues with AVX512 by temporarily disabling specific optimizations to reduce memory consumption and prevent compilation failures
-- [#991](https://gitlab.com/libeigen/eigen/-/merge_requests/991): Resolved ambiguous comparison warnings in clang for C++20 by adjusting TensorBase comparison operators
 - [#993](https://gitlab.com/libeigen/eigen/-/merge_requests/993): Corrected row vs column vector terminology typo in Matrix class tutorial documentation
 - [#1003](https://gitlab.com/libeigen/eigen/-/merge_requests/1003): Eliminated undefined warnings for non-AVX512 compilation by adding appropriate macro guards
 - [#1007](https://gitlab.com/libeigen/eigen/-/merge_requests/1007): Fixed One Definition Rule (ODR) violations by converting unnamed type declarations to named types
@@ -276,7 +271,7 @@
 - [#1028](https://gitlab.com/libeigen/eigen/-/merge_requests/1028): Fixed build compatibility for non-VSX PowerPC architectures
 - [#1030](https://gitlab.com/libeigen/eigen/-/merge_requests/1030): Resolves Half function definition conflict on aarch64 for GPU compilation
 - [#1032](https://gitlab.com/libeigen/eigen/-/merge_requests/1032): Fixed invalid deprecation warnings in BDCSVD constructor handling
-- [#1033](https://gitlab.com/libeigen/eigen/-/merge_requests/1033): Fixed SYCL tests by correcting sigmoid function, binary logic operators, and resolving test failures in tensor math operations
+
 - [#1037](https://gitlab.com/libeigen/eigen/-/merge_requests/1037): Protected new pblend implementation with EIGEN_VECTORIZE_AVX2 to address build compatibility issues
 - [#1039](https://gitlab.com/libeigen/eigen/-/merge_requests/1039): Fixed `psign` function for unsigned integer types, preventing incorrect behavior with bool types
 - [#1042](https://gitlab.com/libeigen/eigen/-/merge_requests/1042): Fixed undefined behavior in array_cwise test related to signed integer overflow
@@ -324,7 +319,6 @@
 - [#1180](https://gitlab.com/libeigen/eigen/-/merge_requests/1180): Fixed critical sparse matrix handling bugs for empty matrices to prevent segmentation faults
 - [#1181](https://gitlab.com/libeigen/eigen/-/merge_requests/1181): Fixed bugs in GPU convolution operations by enabling GPU assertions
 - [#1184](https://gitlab.com/libeigen/eigen/-/merge_requests/1184): Fixes pre-POWER8_VECTOR bugs in pcmp_lt and pnegate, and reactivates psqrt function
-- [#1185](https://gitlab.com/libeigen/eigen/-/merge_requests/1185): Improved special case handling in atan2 function to resolve test failure in TensorFlow with Clang
 - [#1189](https://gitlab.com/libeigen/eigen/-/merge_requests/1189): Added EIGEN_DEVICE_FUNC qualifiers to SkewSymmetricDense to fix CUDA compatibility
 - [#1202](https://gitlab.com/libeigen/eigen/-/merge_requests/1202): Fixed MSVC ARM build compatibility by resolving intrinsic function and vector type handling issues
 - [#1212](https://gitlab.com/libeigen/eigen/-/merge_requests/1212): Disabled array BF16 to F32 conversions on Power architecture to improve performance and stability
@@ -345,7 +339,6 @@
 - [#1252](https://gitlab.com/libeigen/eigen/-/merge_requests/1252): Implemented a workaround for a compiler bug in Tridiagonalization.h, improving stability across compiler environments
 - [#1256](https://gitlab.com/libeigen/eigen/-/merge_requests/1256): Fixed bug in minmax_coeff_visitor when matrix contains only NaN values
 - [#1257](https://gitlab.com/libeigen/eigen/-/merge_requests/1257): Fixed minmax visitor behavior for PropagateFast option to prevent out-of-bounds index issues with NaN matrices
-- [#1258](https://gitlab.com/libeigen/eigen/-/merge_requests/1258): Reverted BF16 GEMM changes that caused register spillage and performance degradation on LLVM Power architecture
 - [#1263](https://gitlab.com/libeigen/eigen/-/merge_requests/1263): Fixed PowerPC and Clang compiler warnings to improve code stability
 - [#1270](https://gitlab.com/libeigen/eigen/-/merge_requests/1270): Fixed ARM build compatibility issues including casting, MSVC packet conversion, and 32-bit ARM macro definitions
 - [#1271](https://gitlab.com/libeigen/eigen/-/merge_requests/1271): Fixed issues with SparseMatrix::Map typedef and setFromTriplets method robustness
@@ -377,14 +370,12 @@
 - [#1362](https://gitlab.com/libeigen/eigen/-/merge_requests/1362): Fixed `_mm256_cvtps_ph` intrinsic argument to eliminate MSVC compilation warning
 - [#1363](https://gitlab.com/libeigen/eigen/-/merge_requests/1363): Fixed `arg` function compatibility in CUDA environments, resolving compilation issues with MSVC and C++20
 - [#1367](https://gitlab.com/libeigen/eigen/-/merge_requests/1367): Addresses GCC compiler warnings by fixing zero-sized block handling, assignment operators, and uninitialized variable issues
-- [#1369](https://gitlab.com/libeigen/eigen/-/merge_requests/1369): Fixed ARM build warnings by addressing type casting and variable shadowing issues in Eigen's Tensor module
 - [#1370](https://gitlab.com/libeigen/eigen/-/merge_requests/1370): Fix compiler warning for matrix-vector multiplication loop optimizations on x86-64 gcc 10+
 - [#1371](https://gitlab.com/libeigen/eigen/-/merge_requests/1371): Fixed `-Wmaybe-uninitialized` warning in SVD implementation by improving dimension initialization and type safety
 - [#1376](https://gitlab.com/libeigen/eigen/-/merge_requests/1376): Fixed nullptr dereference issue in triangular product for zero-sized matrices
 - [#1377](https://gitlab.com/libeigen/eigen/-/merge_requests/1377): Fix undefined behavior in triangular solves for empty systems
 - [#1379](https://gitlab.com/libeigen/eigen/-/merge_requests/1379): Prevents nullptr dereference in SVD implementation for small matrices
 - [#1380](https://gitlab.com/libeigen/eigen/-/merge_requests/1380): Fixes undefined behavior related to scalar memory alignment with improved memory alignment checks
-- [#1382](https://gitlab.com/libeigen/eigen/-/merge_requests/1382): Fix tensor strided linear buffer copy to prevent negative index issues and improve integer arithmetic safety
 - [#1386](https://gitlab.com/libeigen/eigen/-/merge_requests/1386): Fixed ARM32 floating-point division issues, improving accuracy and reliability of float computations
 - [#1388](https://gitlab.com/libeigen/eigen/-/merge_requests/1388): Fixed stage success check in Pardiso solver to only report success when `m_info == Eigen::Success`
 - [#1392](https://gitlab.com/libeigen/eigen/-/merge_requests/1392): Fixed CUDA device function calls by adding `EIGEN_DEVICE_FUNC` attribute to static run methods
@@ -631,10 +622,8 @@
 - [#904](https://gitlab.com/libeigen/eigen/-/merge_requests/904): Converted static const class members to constexpr for improved compile-time efficiency
 - [#909](https://gitlab.com/libeigen/eigen/-/merge_requests/909): Removed outdated GCC-4 warning workarounds, simplifying and improving code maintainability
 - [#913](https://gitlab.com/libeigen/eigen/-/merge_requests/913): PowerPC MMA build configuration enhancement with dynamic dispatch option
-- [#916](https://gitlab.com/libeigen/eigen/-/merge_requests/916): Updated Altivec MMA dynamic dispatch flags to support binary values for improved TensorFlow compatibility
 - [#921](https://gitlab.com/libeigen/eigen/-/merge_requests/921): Optimized visitor traversal for RowMajor inputs, improving matrix operation performance
 - [#927](https://gitlab.com/libeigen/eigen/-/merge_requests/927): Update warning suppression techniques for improved compiler compatibility
-- [#929](https://gitlab.com/libeigen/eigen/-/merge_requests/929): Split general matrix-vector product interface for Power architectures to improve TensorFlow compatibility
 - [#931](https://gitlab.com/libeigen/eigen/-/merge_requests/931): Re-enabled Aarch64 CI pipelines to improve testing and validation for Aarch64 architecture
 - [#939](https://gitlab.com/libeigen/eigen/-/merge_requests/939): Improved LAPACK module code organization by removing `.cpp` file inclusions
 - [#940](https://gitlab.com/libeigen/eigen/-/merge_requests/940): Reintroduced std::remove* aliases to restore compatibility with third-party libraries
@@ -745,7 +734,6 @@
 - [#1253](https://gitlab.com/libeigen/eigen/-/merge_requests/1253): Simplified packetmath specializations using a macro, improving code readability and maintainability across backends
 - [#1259](https://gitlab.com/libeigen/eigen/-/merge_requests/1259): Reinstated and expanded deadcode checks to improve code quality and maintainability
 - [#1262](https://gitlab.com/libeigen/eigen/-/merge_requests/1262): Limits build and link jobs on PowerPC to reduce out-of-memory issues
-- [#1264](https://gitlab.com/libeigen/eigen/-/merge_requests/1264): Introduced EIGEN_NOT_A_MACRO macro to improve compatibility with TensorFlow build process
 - [#1267](https://gitlab.com/libeigen/eigen/-/merge_requests/1267): Corrected various typographical errors to improve code readability and documentation quality
 - [#1268](https://gitlab.com/libeigen/eigen/-/merge_requests/1268): Improved CMake argument parsing to support semi-colon separated lists for better build system compatibility
 - [#1272](https://gitlab.com/libeigen/eigen/-/merge_requests/1272): Optimized casting performance for x86_64 architectures, with significant speedups in bool and float casting operations
@@ -756,7 +744,6 @@
 - [#1286](https://gitlab.com/libeigen/eigen/-/merge_requests/1286): Improves type safety for non-const symbolic indexed view expressions by adding explicit l-value qualification
 - [#1288](https://gitlab.com/libeigen/eigen/-/merge_requests/1288): Updated documentation for Eigen 3.4.x to improve build process and clarity
 - [#1294](https://gitlab.com/libeigen/eigen/-/merge_requests/1294): Improved accuracy of `erf()` function with refined rational approximation and enhanced clamping methods
-- [#1298](https://gitlab.com/libeigen/eigen/-/merge_requests/1298): Improved tensor select evaluator using typed ternary selection operator for better performance
 - [#1303](https://gitlab.com/libeigen/eigen/-/merge_requests/1303): Improved `Erf()` function performance and accuracy, ensuring +/-1 return values at clamping points with computational speed enhancements
 - [#1305](https://gitlab.com/libeigen/eigen/-/merge_requests/1305): Enhanced `StridedLinearBufferCopy` with half-`Packet` operations to improve computational efficiency
 - [#1313](https://gitlab.com/libeigen/eigen/-/merge_requests/1313): Added pmul and abs2 operations for Packet4ul in AVX2 implementation
@@ -823,11 +810,9 @@
 - [#1530](https://gitlab.com/libeigen/eigen/-/merge_requests/1530): Eliminate FindCUDA CMake warning to improve build configuration process
 - [#1532](https://gitlab.com/libeigen/eigen/-/merge_requests/1532): Improved error message clarity for C++14 requirement
 - [#1539](https://gitlab.com/libeigen/eigen/-/merge_requests/1539): Improves static vector allocation alignment in TRMV module, ensuring consistent memory alignment for fixed-sized vectors
-- [#1542](https://gitlab.com/libeigen/eigen/-/merge_requests/1542): Split cxx11_tensor_gpu test to reduce Windows test timeouts and improve test suite reliability
 - [#1543](https://gitlab.com/libeigen/eigen/-/merge_requests/1543): Improved incomplete Cholesky decomposition with new `findOrInsertCoeff` method and enhanced verification of sparse matrix operations
 - [#1547](https://gitlab.com/libeigen/eigen/-/merge_requests/1547): Improved const input handling and C++20 compatibility in unary views by preserving const-ness and updating type trait implementation
 - [#1557](https://gitlab.com/libeigen/eigen/-/merge_requests/1557): Improved documentation consistency for the Jacobi module by adjusting documentation tag placement
-- [#1558](https://gitlab.com/libeigen/eigen/-/merge_requests/1558): Performance optimization for `Tensor::resize` by removing slow index checks and modernizing code
 - [#1560](https://gitlab.com/libeigen/eigen/-/merge_requests/1560): Added `cwiseSquare` function and improved tests for element-wise matrix operations
 - [#1561](https://gitlab.com/libeigen/eigen/-/merge_requests/1561): Removed unnecessary `extern C` declarations in CholmodSupport module, simplifying code and maintaining library compatibility
 - [#1563](https://gitlab.com/libeigen/eigen/-/merge_requests/1563): Introduced custom formatting for complex numbers improving Numpy and Native compatibility
@@ -856,7 +841,6 @@
 - [#1632](https://gitlab.com/libeigen/eigen/-/merge_requests/1632): Vectorized `allFinite()` function with approximately 2.7x performance speedup on AVX-compatible hardware
 - [#1640](https://gitlab.com/libeigen/eigen/-/merge_requests/1640): Fixed markdown formatting in README.md for improved readability
 - [#1641](https://gitlab.com/libeigen/eigen/-/merge_requests/1641): Introduced AVX512F-based casting optimization from `double` to `int64_t` for enhanced performance
-- [#1644](https://gitlab.com/libeigen/eigen/-/merge_requests/1644): Add async support for `chip` and `extract_volume_patches` operations in Eigen's Tensor module
 - [#1656](https://gitlab.com/libeigen/eigen/-/merge_requests/1656): Corrected multiple typographical errors across the Eigen codebase using codespell
 - [#1659](https://gitlab.com/libeigen/eigen/-/merge_requests/1659): Updated `.clang-format` configuration to improve JavaScript file formatting compatibility
 - [#1660](https://gitlab.com/libeigen/eigen/-/merge_requests/1660): Updated `eigen_navtree_hacks.js` file to improve code readability, performance, and maintenance
@@ -936,7 +920,6 @@
 - [#1832](https://gitlab.com/libeigen/eigen/-/merge_requests/1832): Remove `fno-check-new` compiler flag for Clang to reduce build warnings
 - [#1837](https://gitlab.com/libeigen/eigen/-/merge_requests/1837): Modify documentation build process to prevent automatic deletion of nightly docs on pipeline failures
 - [#1843](https://gitlab.com/libeigen/eigen/-/merge_requests/1843): Improved STL feature detection for C++20 compatibility, preventing compilation issues across different compiler and library versions
-- [#1844](https://gitlab.com/libeigen/eigen/-/merge_requests/1844): Optimized division operations in `TensorVolumePatch.h` by reducing unnecessary divisions when packet size is 1
 - [#1846](https://gitlab.com/libeigen/eigen/-/merge_requests/1846): Refactored `AssignmentFunctors.h` to reduce code redundancy and improve consistency in assignment operations
 
 ### Added
@@ -1006,9 +989,8 @@
 
 ### Changes
 
-- [#739](https://gitlab.com/libeigen/eigen/-/merge_requests/739): Disabled tests for GCC-4.8 to facilitate transition to C++14
-
 # Unsupported
+
 
 ## Breaking changes
 
@@ -1038,6 +1020,7 @@
 
 ### Fixed
 
+- [#628](https://gitlab.com/libeigen/eigen/-/merge_requests/628): Renamed 'vec_all_nan' symbol in cxx11_tensor_expr test to resolve build conflicts with altivec.h on ppc64le platform
 - [#653](https://gitlab.com/libeigen/eigen/-/merge_requests/653): Disabled specific HIP subtests that fail due to non-functional device side malloc/free
 - [#671](https://gitlab.com/libeigen/eigen/-/merge_requests/671): Fixed GPU special function tests by correcting checks and updating verification methods
 - [#679](https://gitlab.com/libeigen/eigen/-/merge_requests/679): Disabled Tree reduction for GPU to resolve memory errors and improve GPU operation stability
@@ -1052,17 +1035,28 @@
 - [#894](https://gitlab.com/libeigen/eigen/-/merge_requests/894): Fixed tensor executor test and added support for tensor packets of size 1
 - [#898](https://gitlab.com/libeigen/eigen/-/merge_requests/898): Fixed zeta function edge case for large inputs, preventing NaN and overflow issues
 - [#902](https://gitlab.com/libeigen/eigen/-/merge_requests/902): Temporarily disabled aarch64 CI due to unavailable Windows on Arm machines
+- [#916](https://gitlab.com/libeigen/eigen/-/merge_requests/916): Updated Altivec MMA dynamic dispatch flags to support binary values for improved TensorFlow compatibility
+- [#929](https://gitlab.com/libeigen/eigen/-/merge_requests/929): Split general matrix-vector product interface for Power architectures to improve TensorFlow compatibility
+- [#991](https://gitlab.com/libeigen/eigen/-/merge_requests/991): Resolved ambiguous comparison warnings in clang for C++20 by adjusting TensorBase comparison operators
 - [#1001](https://gitlab.com/libeigen/eigen/-/merge_requests/1001): Fixed build compatibility for f16/bf16 Bessel function specializations on AVX512 for older compilers
+- [#1033](https://gitlab.com/libeigen/eigen/-/merge_requests/1033): Fixed SYCL tests by correcting sigmoid function, binary logic operators, and resolving test failures in tensor math operations
 - [#1123](https://gitlab.com/libeigen/eigen/-/merge_requests/1123): Fix reshaping strides handling for inputs with non-zero inner stride in Eigen's Tensor module
 - [#1159](https://gitlab.com/libeigen/eigen/-/merge_requests/1159): Re-added missing header to restore GPU test functionality
+- [#1185](https://gitlab.com/libeigen/eigen/-/merge_requests/1185): Improved special case handling in atan2 function to resolve test failure in TensorFlow with Clang
 - [#1227](https://gitlab.com/libeigen/eigen/-/merge_requests/1227): Fixed null placeholder accessor issue in Reduction SYCL test to prevent segmentation faults
 - [#1237](https://gitlab.com/libeigen/eigen/-/merge_requests/1237): Fixed GPU conv3d out-of-resources failure by adjusting 32-bit integer variable handling in kernel
 - [#1243](https://gitlab.com/libeigen/eigen/-/merge_requests/1243): Fixed tensor comparison test in unsupported module
+- [#1264](https://gitlab.com/libeigen/eigen/-/merge_requests/1264): Introduced EIGEN_NOT_A_MACRO macro to improve compatibility with TensorFlow build process
+- [#1298](https://gitlab.com/libeigen/eigen/-/merge_requests/1298): Improved tensor select evaluator using typed ternary selection operator for better performance
 - [#1355](https://gitlab.com/libeigen/eigen/-/merge_requests/1355): Disable FP16 arithmetic for arm32 to prevent compatibility issues with Clang compiler
+- [#1369](https://gitlab.com/libeigen/eigen/-/merge_requests/1369): Fixed ARM build warnings by addressing type casting and variable shadowing issues in Eigen's Tensor module
+- [#1382](https://gitlab.com/libeigen/eigen/-/merge_requests/1382): Fix tensor strided linear buffer copy to prevent negative index issues and improve integer arithmetic safety
+- [#1383](https://gitlab.com/libeigen/eigen/-/merge_requests/1383): Introduces `EIGEN_TEMPORARY_UNALIGNED_SCALAR_UB` macro to handle unaligned scalar undefined behavior, primarily addressing TensorFlow Lite compatibility issues
 - [#1410](https://gitlab.com/libeigen/eigen/-/merge_requests/1410): Fix integer overflow in `div_ceil` function preventing `cxx11_tensor_gpu_1` test from passing
 - [#1435](https://gitlab.com/libeigen/eigen/-/merge_requests/1435): Protect kernel launch syntax from unintended clang-format modifications that cause syntax errors
 - [#1453](https://gitlab.com/libeigen/eigen/-/merge_requests/1453): Fixed memory management issues in `TensorForcedEval` by using `shared_ptr` to prevent double-free and invalid memory access errors
 - [#1516](https://gitlab.com/libeigen/eigen/-/merge_requests/1516): Fixed GPU build compatibility for `ptanh_float` function
+- [#1542](https://gitlab.com/libeigen/eigen/-/merge_requests/1542): Split cxx11_tensor_gpu test to reduce Windows test timeouts and improve test suite reliability
 - [#1575](https://gitlab.com/libeigen/eigen/-/merge_requests/1575): Fix `long double` random number generation fallback mechanism
 - [#1596](https://gitlab.com/libeigen/eigen/-/merge_requests/1596): Resolved unused variable warnings in TensorIO component
 - [#1597](https://gitlab.com/libeigen/eigen/-/merge_requests/1597): Fix enum comparison warnings in Autodiff module
@@ -1081,6 +1075,7 @@
 - [#619](https://gitlab.com/libeigen/eigen/-/merge_requests/619): Improved documentation for unsupported sparse iterative solvers
 - [#645](https://gitlab.com/libeigen/eigen/-/merge_requests/645): Introduced default constructor for eigen_packet_wrapper to simplify memory operations
 - [#669](https://gitlab.com/libeigen/eigen/-/merge_requests/669): Optimized tensor_contract_gpu test by reducing contractions to improve test performance on Windows
+- [#667](https://gitlab.com/libeigen/eigen/-/merge_requests/667): Significantly speeds up tensor reduction performance through loop strip mining and unrolling techniques
 - [#678](https://gitlab.com/libeigen/eigen/-/merge_requests/678): Reorganized CUDA/Complex.h to GPU/Complex.h and removed deprecated TensorReductionCuda.h header
 - [#724](https://gitlab.com/libeigen/eigen/-/merge_requests/724): Improved TensorIO compatibility with TensorMap containing const elements
 - [#896](https://gitlab.com/libeigen/eigen/-/merge_requests/896): Removed ComputeCpp-specific code from SYCL Vptr, improving compatibility and performance
@@ -1094,6 +1089,8 @@
 - [#1466](https://gitlab.com/libeigen/eigen/-/merge_requests/1466): Refined assertions for chipping operations in Tensor module, removing dimension checks and improving efficiency
 - [#1479](https://gitlab.com/libeigen/eigen/-/merge_requests/1479): Corrected markdown formatting in Eigen::Tensor README.md for improved documentation readability
 - [#1509](https://gitlab.com/libeigen/eigen/-/merge_requests/1509): Renamed `generic_fast_tanh_float` to `ptanh_float` for improved code clarity and maintainability
+- [#1558](https://gitlab.com/libeigen/eigen/-/merge_requests/1558): Performance optimization for `Tensor::resize` by removing slow index checks and modernizing code
+- [#1644](https://gitlab.com/libeigen/eigen/-/merge_requests/1644): Add async support for `chip` and `extract_volume_patches` operations in Eigen's Tensor module
 - [#1645](https://gitlab.com/libeigen/eigen/-/merge_requests/1645): Explicitly capture `this` in lambda expressions in Tensor module to prevent compiler warnings and improve code clarity
 - [#1653](https://gitlab.com/libeigen/eigen/-/merge_requests/1653): Corrected numerous typographical errors across Eigen's documentation and codebase to improve readability
 - [#1680](https://gitlab.com/libeigen/eigen/-/merge_requests/1680): Enhances TensorChipping by detecting "effectively inner/outer" chipping with stride optimization
@@ -1102,6 +1099,7 @@
 - [#1770](https://gitlab.com/libeigen/eigen/-/merge_requests/1770): Experimental Alpine Docker base image for CI to potentially improve build efficiency
 - [#1771](https://gitlab.com/libeigen/eigen/-/merge_requests/1771): Updated deployment job to enhance efficiency and workflow reliability
 - [#1772](https://gitlab.com/libeigen/eigen/-/merge_requests/1772): Update git clone strategy to improve branch setup and repository management
+- [#1844](https://gitlab.com/libeigen/eigen/-/merge_requests/1844): Optimized division operations in `TensorVolumePatch.h` by reducing unnecessary divisions when packet size is 1
 - [#1849](https://gitlab.com/libeigen/eigen/-/merge_requests/1849): Formatted `TensorDeviceThreadPool.h` and improved code using `if constexpr` for C++20
 
 ### Added
