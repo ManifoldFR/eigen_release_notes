@@ -1,6 +1,18 @@
-# Supported
+# Changelog
 
-## Breaking changes
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+
+## [Unreleased]
+
+## [3.5.0]
+
+_Disclaimer:_ This release contains a lot of changes. Due to the large amount of changes, and the time between this release and the last, the release notes are AI-generated from a set of parsed merged requests, and may be incomplete or could contain a small amount of wrong entries.
+
+### Supported modules
+
+#### Breaking changes
 
 - [#485](https://gitlab.com/libeigen/eigen/-/merge_requests/485): Removes deprecated CMake package config variables, potentially breaking existing CMake configurations
 - [#608](https://gitlab.com/libeigen/eigen/-/merge_requests/608): Removes CI jobs for C++03 compatibility, signaling transition to modern C++ standards
@@ -31,7 +43,7 @@
 - [#1795](https://gitlab.com/libeigen/eigen/-/merge_requests/1795): Changes `Eigen::aligned_allocator` to no longer inherit from `std::allocator`, modifying allocator behavior and potentially breaking existing code
 - [#1827](https://gitlab.com/libeigen/eigen/-/merge_requests/1827): Removes default assumption of `std::complex` for complex scalar types, allowing more flexibility with custom complex types
 
-## Major changes
+#### Major changes
 
 - [#356](https://gitlab.com/libeigen/eigen/-/merge_requests/356): Introduced PocketFFT as a more performant and accurate replacement for KissFFT in Eigen's FFT module
 - [#489](https://gitlab.com/libeigen/eigen/-/merge_requests/489): Added AVX512 and AVX2 support for Packet16i and Packet8i, enhancing vectorization capabilities for integer types
@@ -144,9 +156,9 @@
 - [#1820](https://gitlab.com/libeigen/eigen/-/merge_requests/1820): Improves fixed-size assignment handling by optimizing vectorized traversals and reducing compiler `Warray-bounds` warnings
 - [#1838](https://gitlab.com/libeigen/eigen/-/merge_requests/1838): Simplified parallel task API for `ParallelFor` and `ParallelForAsync`, optimizing task function definition and completion handling
 
-## Other
+#### Other
 
-### Fixed
+##### Fixed
 
 - [#611](https://gitlab.com/libeigen/eigen/-/merge_requests/611): Included `<unordered_map>` header to resolve header inclusion issue
 - [#613](https://gitlab.com/libeigen/eigen/-/merge_requests/613): Fix `fix<N>` implementation for environments without variable templates support
@@ -231,7 +243,6 @@
 - [#900](https://gitlab.com/libeigen/eigen/-/merge_requests/900): Fix swap test for size 1 matrix inputs to prevent assertion failures
 - [#901](https://gitlab.com/libeigen/eigen/-/merge_requests/901): Fixed `construct_at` compilation issue on ROCm/HIP environments
 - [#908](https://gitlab.com/libeigen/eigen/-/merge_requests/908): Corrected reference code for `ata_product` function in STL_interface.hh
-
 - [#914](https://gitlab.com/libeigen/eigen/-/merge_requests/914): Disabled Schur non-convergence test to reduce flaky results and improve reliability
 - [#915](https://gitlab.com/libeigen/eigen/-/merge_requests/915): Fixed missing pound directive to improve compilation and code robustness
 - [#917](https://gitlab.com/libeigen/eigen/-/merge_requests/917): Resolved g++-10 docker compiler optimization issue in geo_orthomethods_4 test
@@ -271,7 +282,6 @@
 - [#1028](https://gitlab.com/libeigen/eigen/-/merge_requests/1028): Fixed build compatibility for non-VSX PowerPC architectures
 - [#1030](https://gitlab.com/libeigen/eigen/-/merge_requests/1030): Resolves Half function definition conflict on aarch64 for GPU compilation
 - [#1032](https://gitlab.com/libeigen/eigen/-/merge_requests/1032): Fixed invalid deprecation warnings in BDCSVD constructor handling
-
 - [#1037](https://gitlab.com/libeigen/eigen/-/merge_requests/1037): Protected new pblend implementation with EIGEN_VECTORIZE_AVX2 to address build compatibility issues
 - [#1039](https://gitlab.com/libeigen/eigen/-/merge_requests/1039): Fixed `psign` function for unsigned integer types, preventing incorrect behavior with bool types
 - [#1042](https://gitlab.com/libeigen/eigen/-/merge_requests/1042): Fixed undefined behavior in array_cwise test related to signed integer overflow
@@ -524,7 +534,7 @@
 - [#1850](https://gitlab.com/libeigen/eigen/-/merge_requests/1850): Fixed x86 complex vectorized FMA implementation to improve computational accuracy and performance
 - [#1851](https://gitlab.com/libeigen/eigen/-/merge_requests/1851): Fixed implementation of Givens rotation algorithm to improve accuracy and reliability
 
-### Improved
+##### Improved
 
 - [#544](https://gitlab.com/libeigen/eigen/-/merge_requests/544): Added GDB pretty printer support for Eigen::Block types to improve debugging experience
 - [#572](https://gitlab.com/libeigen/eigen/-/merge_requests/572): Removed unnecessary `const` qualifiers from AutodiffScalar return types to improve code quality and readability
@@ -922,7 +932,7 @@
 - [#1843](https://gitlab.com/libeigen/eigen/-/merge_requests/1843): Improved STL feature detection for C++20 compatibility, preventing compilation issues across different compiler and library versions
 - [#1846](https://gitlab.com/libeigen/eigen/-/merge_requests/1846): Refactored `AssignmentFunctors.h` to reduce code redundancy and improve consistency in assignment operations
 
-### Added
+##### Added
 
 - [#121](https://gitlab.com/libeigen/eigen/-/merge_requests/121): Added a `make format` command to enforce consistent code styling across the project
 - [#447](https://gitlab.com/libeigen/eigen/-/merge_requests/447): Introduces BiCGSTAB(L) algorithm for solving linear systems with potential improvements for non-symmetric systems
@@ -970,7 +980,7 @@
 - [#1805](https://gitlab.com/libeigen/eigen/-/merge_requests/1805): Added `matrixL()` and `matrixU()` functions to fetch L and U factors from IncompleteLUT sparse matrix decomposition
 - [#1812](https://gitlab.com/libeigen/eigen/-/merge_requests/1812): Added automated Doxygen documentation build and deployment to GitLab Pages
 
-### Removed
+##### Removed
 
 - [#636](https://gitlab.com/libeigen/eigen/-/merge_requests/636): Removed stray references to deprecated DynamicSparseMatrix class
 - [#740](https://gitlab.com/libeigen/eigen/-/merge_requests/740): Removed redundant `nonZeros()` method from `DenseBase` class, which simply called `size()`
@@ -987,18 +997,17 @@
 - [#1475](https://gitlab.com/libeigen/eigen/-/merge_requests/1475): Removed `MoreVectorization` feature, relocating `pasin` implementation to `GenericPacketMath` to reduce code complexity and potential ODR violations
 - [#1477](https://gitlab.com/libeigen/eigen/-/merge_requests/1477): Removed obsolete relicense script to streamline codebase
 
-### Changes
+##### Changes
 
-# Unsupported
+### Unsupported
 
-
-## Breaking changes
+#### Breaking changes
 
 - [#606](https://gitlab.com/libeigen/eigen/-/merge_requests/606): Removal of Sparse Dynamic Matrix from library API
 - [#704](https://gitlab.com/libeigen/eigen/-/merge_requests/704): Removed problematic `take<n, numeric_list<T>>` implementation to resolve g++-11 compiler crash
 - [#1423](https://gitlab.com/libeigen/eigen/-/merge_requests/1423): Adds static assertions to Tensor constructors to validate tensor dimension compatibility at compile-time
 
-## Major changes
+#### Major changes
 
 - [#327](https://gitlab.com/libeigen/eigen/-/merge_requests/327): Reimplemented Tensor stream output with new predefined formats and improved IO functionality
 - [#534](https://gitlab.com/libeigen/eigen/-/merge_requests/534): Introduces preliminary HIP bfloat16 GPU support for AMD GPUs
@@ -1016,9 +1025,9 @@
 - [#1828](https://gitlab.com/libeigen/eigen/-/merge_requests/1828): Enhances TensorRef implementation with improved type handling and immutability enforcement
 - [#1848](https://gitlab.com/libeigen/eigen/-/merge_requests/1848): Cleaned up and improved TensorDeviceThreadPool implementation with method removals, enhanced C++20 compatibility, and simplified type erasure
 
-## Other
+#### Other
 
-### Fixed
+##### Fixed
 
 - [#628](https://gitlab.com/libeigen/eigen/-/merge_requests/628): Renamed 'vec_all_nan' symbol in cxx11_tensor_expr test to resolve build conflicts with altivec.h on ppc64le platform
 - [#653](https://gitlab.com/libeigen/eigen/-/merge_requests/653): Disabled specific HIP subtests that fail due to non-functional device side malloc/free
@@ -1068,7 +1077,7 @@
 - [#1840](https://gitlab.com/libeigen/eigen/-/merge_requests/1840): Fixed boolean scatter and random generation issues in tensor operations, improving reliability and test coverage
 - [#1847](https://gitlab.com/libeigen/eigen/-/merge_requests/1847): Removed extra semicolon in `DeviceWrapper.h` to fix compilation warnings
 
-### Improved
+##### Improved
 
 - [#543](https://gitlab.com/libeigen/eigen/-/merge_requests/543): Improved PEP8 compliance and formatting in GDB pretty printer for better code readability
 - [#616](https://gitlab.com/libeigen/eigen/-/merge_requests/616): Disabled CUDA Eigen::half host-side vectorization for compatibility with pre-CUDA 10.0 versions
@@ -1102,13 +1111,13 @@
 - [#1844](https://gitlab.com/libeigen/eigen/-/merge_requests/1844): Optimized division operations in `TensorVolumePatch.h` by reducing unnecessary divisions when packet size is 1
 - [#1849](https://gitlab.com/libeigen/eigen/-/merge_requests/1849): Formatted `TensorDeviceThreadPool.h` and improved code using `if constexpr` for C++20
 
-### Added
+##### Added
 
 - [#607](https://gitlab.com/libeigen/eigen/-/merge_requests/607): Added flowchart to help users select sparse iterative solvers in unsupported module
 - [#624](https://gitlab.com/libeigen/eigen/-/merge_requests/624): Introduced `Serializer<T>` class for binary serialization, enhancing GPU testing data transfer capabilities
 - [#798](https://gitlab.com/libeigen/eigen/-/merge_requests/798): Adds a Non-Negative Least Squares (NNLS) solver to Eigen's unsupported modules using an active-set algorithm
 - [#973](https://gitlab.com/libeigen/eigen/-/merge_requests/973): Added `.arg()` method to Tensor class for retrieving indices of max/min values along specified dimensions
 
-### Removed
+##### Removed
 
 - [#637](https://gitlab.com/libeigen/eigen/-/merge_requests/637): Removes obsolete DynamicSparseMatrix references and typographical errors in unsupported directory
