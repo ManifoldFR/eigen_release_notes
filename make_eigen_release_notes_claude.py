@@ -9,9 +9,7 @@ from anthropic.types import Message
 
 load_dotenv()
 # Initialize the Claude client using the new API interface.
-client = Anthropic(
-    api_key=os.environ.get("ANTHROPIC_API_KEY")
-)
+client = Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
 print(f"Client API key: {client.api_key}")
 print(f"Base URL: {client.base_url}")
 try:
@@ -19,6 +17,7 @@ try:
     print("Batch API is available")
 except AttributeError:
     print("Batch API is not available in your client version")
+
 
 def read_csv(file_path: str):
     """Read CSV file and return a list of dictionaries."""
@@ -28,17 +27,16 @@ def read_csv(file_path: str):
 
 
 def construct_message(mr: dict):
-    input_v = ("Here are the merge request details:\n"
+    input_v = (
+        "Here are the merge request details:\n"
         f"Title: {mr.get('title_subject', 'NA')}\n"
         f"Link: {mr.get('mr_id_link', 'NA')}\n"
         f"Summary: {mr.get('summary', 'NA')}\n"
         f"Merge Date: {mr.get('merge_date', 'NA')}\n\n"
-        "Output only a valid JSON object.")
+        "Output only a valid JSON object."
+    )
 
-    msg = {
-        "role": "user",
-        "content": input_v
-    }
+    msg = {"role": "user", "content": input_v}
     return msg
 
 
@@ -78,28 +76,27 @@ def generate_json_for_mr(mr: dict, debug=False):
         """
         "Do not include any extra text or commentary. "
         "Ensure to enclose between backticks macro names from Eigen (starting with 'EIGEN_'). "
-        "Properly escape quotes inside of the summary using \\\". "
+        'Properly escape quotes inside of the summary using \\". '
     )
 
     msg = construct_message(mr)
 
     if debug:
-      count = client.beta.messages.count_tokens(
-          model="claude-3-5-haiku-latest",
-          messages=[msg],
-          system=system_prompt
-      )
-      print("Input tokens:", count.input_tokens)
+        count = client.beta.messages.count_tokens(
+            model="claude-3-5-haiku-latest", messages=[msg], system=system_prompt
+        )
+        print("Input tokens:", count.input_tokens)
     else:
-      response: Message = client.messages.create(
-          max_tokens=120,
-          system=system_prompt,
-          messages=[msg],
-          model="claude-3-5-haiku-latest",
-      )
-      print(f"This request had the following usage: {response.usage}")
-      data = response.content[0].text
-      return data
+        response: Message = client.messages.create(
+            max_tokens=120,
+            system=system_prompt,
+            messages=[msg],
+            model="claude-3-5-haiku-latest",
+        )
+        print(f"This request had the following usage: {response.usage}")
+        data = response.content[0].text
+        return data
+
 
 def main():
     input_csv = "eigen_mr_summary.csv"
@@ -110,43 +107,48 @@ def main():
     rows = read_csv(input_csv)
 
     with open(output_file, "a", encoding="utf-8") as outfile:
-      with open(bad_output_file, "a", encoding="utf-8") as bad_outfile:
-          print(f"Processing {len(rows)} MRs...")
-          for idx, mr in enumerate(rows, start=1):
-              if first_try:
-                  import pdb; pdb.set_trace()
-                  first_try = False
-              try:
-                  debug = False
-                  mr_json_str = generate_json_for_mr(mr, debug)
-                  mr_json_str = mr_json_str.replace("```json", "")
-                  mr_json_str = mr_json_str.replace("```", "")
-                  if debug:
-                    continue
+        with open(bad_output_file, "a", encoding="utf-8") as bad_outfile:
+            print(f"Processing {len(rows)} MRs...")
+            for idx, mr in enumerate(rows, start=1):
+                if first_try:
+                    import pdb
 
-                  # Validate that the output is valid JSON.
-                  try:
-                    mr_json = json.loads(mr_json_str)
-                    # Write the JSON object as one line.
-                    outfile.write(json.dumps(mr_json) + "\n")
-                  except Exception as e:
-                    print(f"Error parsing JSON for MR {idx}: {e}")
-                    bad_outfile.write(f"{mr_json_str}\n")
-                  print(f"Processed MR {idx}/{len(rows)}")
-                  print("Output:", mr_json_str)
-              except Exception as e:
-                  print(f"Error processing MR {idx}: {e}")
-                  import pdb; pdb.set_trace()
-              sleep_time = 0.1
-              if idx % 50 == 0:
-                  print("Sleeping for 40s")
-                  outfile.flush()
-                  bad_outfile.flush()
-                  sleep_time = 40
-              # Adjust delay if necessary to avoid rate limits.
-              time.sleep(sleep_time)
+                    pdb.set_trace()
+                    first_try = False
+                try:
+                    debug = False
+                    mr_json_str = generate_json_for_mr(mr, debug)
+                    mr_json_str = mr_json_str.replace("```json", "")
+                    mr_json_str = mr_json_str.replace("```", "")
+                    if debug:
+                        continue
+
+                    # Validate that the output is valid JSON.
+                    try:
+                        mr_json = json.loads(mr_json_str)
+                        # Write the JSON object as one line.
+                        outfile.write(json.dumps(mr_json) + "\n")
+                    except Exception as e:
+                        print(f"Error parsing JSON for MR {idx}: {e}")
+                        bad_outfile.write(f"{mr_json_str}\n")
+                    print(f"Processed MR {idx}/{len(rows)}")
+                    print("Output:", mr_json_str)
+                except Exception as e:
+                    print(f"Error processing MR {idx}: {e}")
+                    import pdb
+
+                    pdb.set_trace()
+                sleep_time = 0.1
+                if idx % 50 == 0:
+                    print("Sleeping for 40s")
+                    outfile.flush()
+                    bad_outfile.flush()
+                    sleep_time = 40
+                # Adjust delay if necessary to avoid rate limits.
+                time.sleep(sleep_time)
 
     print(f"All MR release notes have been written to {output_file}")
+
 
 if __name__ == "__main__":
     main()
