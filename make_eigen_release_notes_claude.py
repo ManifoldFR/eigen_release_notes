@@ -1,6 +1,5 @@
 import csv
 import json
-import os
 import time
 from dotenv import load_dotenv
 from anthropic import Anthropic
@@ -9,14 +8,10 @@ from anthropic.types import Message
 
 load_dotenv()
 # Initialize the Claude client using the new API interface.
-client = Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
+client = Anthropic()
 print(f"Client API key: {client.api_key}")
 print(f"Base URL: {client.base_url}")
-try:
-    batch_client = client.beta.messages.batches
-    print("Batch API is available")
-except AttributeError:
-    print("Batch API is not available in your client version")
+CLAUDE_MODEL = "claude-sonnet-4-0"
 
 
 def read_csv(file_path: str):
@@ -83,7 +78,7 @@ def generate_json_for_mr(mr: dict, debug=False):
 
     if debug:
         count = client.beta.messages.count_tokens(
-            model="claude-3-5-haiku-latest", messages=[msg], system=system_prompt
+            model=CLAUDE_MODEL, messages=[msg], system=system_prompt
         )
         print("Input tokens:", count.input_tokens)
     else:
@@ -91,7 +86,7 @@ def generate_json_for_mr(mr: dict, debug=False):
             max_tokens=120,
             system=system_prompt,
             messages=[msg],
-            model="claude-3-5-haiku-latest",
+            model=CLAUDE_MODEL,
         )
         print(f"This request had the following usage: {response.usage}")
         data = response.content[0].text
