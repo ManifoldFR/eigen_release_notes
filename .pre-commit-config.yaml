@@ -1,0 +1,30 @@
+ci:
+  autoupdate_branch: devel
+  autofix_prs: false
+  autoupdate_schedule: quarterly
+  submodules: true
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-added-large-files
+        args: ['--maxkb=1800']
+      - id: check-case-conflict
+      - id: check-yaml
+        exclude: ^packaging/conda/
+      - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+      - id: check-merge-conflict
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
+        exclude: |
+            (?x)^(
+                doc/doxygen-awesome.*
+            )$
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: 'v0.12.9'
+    hooks:
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+      - id: ruff-format
