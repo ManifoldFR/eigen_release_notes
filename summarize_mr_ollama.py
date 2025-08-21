@@ -7,27 +7,22 @@ from typing import Literal
 
 client = ollama.Client()
 # MODEL_NAME = "qwen2.5:3b-instruct-q5_K_M"
-MODEL_NAME = "qwen3:1.7b"
 # MODEL_NAME = "qwen3:4b-instruct"
+MODEL_NAME = "qwen3:1.7b"
 
-SYSTEM_PROMPT = """
-You are a merge request summarization assistant for the Eigen C++ linear algebra template library.
-Your output is a JSON object.
+SYSTEM_PROMPT = """You are a merge request summarization and categorization assistant for a C++ linear algebra library.
 
-In the 'md_text' response field, you will return a structured and concise summary.
-
-Identify the key changes and improvements introduced by the merge request.
-Focus on the most important aspects of the MR (avoid getting lost in minor details):
-   - Major code modifications (key changes), including API changes
-   - New features and improvements
-   - Impact on the wider codebase
-
-If any field in the input is NA, exclude the corresponding section from the summary.
+Focus on the most important aspects of the MR (avoid getting lost in minor details): major code modifications (key changes), new features and improvements, impact on the codebase.
+Make each section in the summary short (a few lines at most).
+If any field is marked NA, exclude it from the summary.
 Ensure macro names from Eigen (i.e. starting with `EIGEN_`) are formatted in backticks.
+Paste the author name and MR title as they were given to you.
+Break line after the section headings.
 
-The structured summary should be in the form and have the sections (and only those sections) as follows:
+The structured summary is of the following form and has the sections:
+
 ## Title:
-<MR title>
+<title>
 ## Author:
 <author>
 ## Summary
@@ -37,25 +32,19 @@ The structured summary should be in the form and have the sections (and only tho
 <improvements>
 ### Impact:
 <impact>
-
-Precise instructions:
-  - paste the author name as it was given to you (as "name (username)").
-  - paste the title string as it was given to you.
-  - you will break line after the section headings.
-  - do not include any other sections than the given ones.
----
-
-To fill in the 'short_summary' field:
-The one-line short summary (field: 'short_summary') must be like a line in a set of release notes: prefer starting with a non-conjugated verb or past tense, e.g. say "Fix" or "Fixed" instead of "Fixes":
-  - Implemented consistent default forwarding behavior for packet min/max operations with different NaN propagation modes
-  - Fix ARM32 float division accuracy and related numerical stability issues through improved reciprocal calculations
-
-To fill in the 'supported', 'category' fields:
-You will classify the MR by support status ('supported', 'unsupported') and category ('major_changes', 'breaking_changes', 'other_improved', 'other_fixed', 'other_added', 'other_removed').
-  - 'supported' or 'unsupported' means whether the changes affect supported or unsupported modules (e.g. changes to Eigen's tensor module in `<unsupported/Eigen/CXX11/Tensor>`, or the threadpools, etc).
-  - 'major_changes' means "Highlights big new features"
-  - 'breaking_changes' means "Big breaks most users should be aware of".
 """
+# """
+# JSON output field 'short_summary' is a one-line short summary, like a line in a set of release notes.
+# Prefer starting with a non-conjugated verb or past tense say "Fix" or "Fixed" instead of "Fixes":
+#   - Implemented consistent default forwarding behavior for packet min/max operations with different NaN propagation modes
+#   - Fix ARM32 float division accuracy and related numerical stability issues through improved reciprocal calculations
+
+# For the fields 'supported' and 'category':
+# You will classify the MR by support status ('supported', 'unsupported') and category ('major_changes', 'breaking_changes', 'other_improved', 'other_fixed', 'other_added', 'other_removed').
+#   - 'supported' or 'unsupported' means whether the changes affect supported or unsupported modules (e.g. changes to Eigen's tensor module in `<unsupported/Eigen/CXX11/Tensor>`, or the threadpools, etc).
+#   - 'major_changes' means "Highlights big new features"
+#   - 'breaking_changes' means "Big breaks most users should be aware of".
+# """
 
 
 class MyResponse(BaseModel):
@@ -72,43 +61,38 @@ class MyResponse(BaseModel):
     short_summary: str
 
 
+def get_completion(prompt: str, *, system_prompt="", prefill=""):
+    response: ollama.ChatResponse = client.chat(
+        MODEL_NAME,
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": prompt},
+            {"role": "assistant", "content": prefill},
+        ],
+        think=False,
+        options={
+            "temperature": 0.0,  # deterministic
+        },
+    )
+    return response.message
+
+
 def summarize_merge_request(client: ollama.Client, mr):
     # Construct the instructions (prompt) for the summarization.
     _author = mr["author"]
     input_v = (
-        f"Title: {mr.get('title', 'NA')}\n"
-        f"Author: {_author['name']} ({_author['username']})\n"
-        f"Labels: {mr.get('labels', 'NA')}\n"
-        f"Description: {mr.get('description', 'NA')}\n"
+        "Summarize the following MR:\n"
+        f"<title>{mr.get('title', 'NA')}</title>\n"
+        f"<author>{_author['name']} ({_author['username']})</author>\n"
+        f"<labels>{mr.get('labels', 'NA')}</labels>\n"
+        f"<description>{mr.get('description', 'NA')}</description>\n"
     )
 
-    response: ollama.ChatResponse = client.chat(
-        MODEL_NAME,
-        messages=[
-            {"role": "system", "content": SYSTEM_PROMPT},
-            {"role": "user", "content": input_v},
-        ],
-        think=False,
-        options={
-            "num_ctx": 2048,
-            "temperature": 0.0,  # deterministic
-        },
-        format=MyResponse.model_json_schema(),
-    )
-    message: ollama.Message = response.message
-    meta = MyResponse.model_validate_json(message.content)
+    message = get_completion(input_v, system_prompt=SYSTEM_PROMPT)
     print(f"Parsed summary for MR#{mr['iid']}:")
-    summary = meta.md_text.rstrip()
+    summary = message.content.rstrip()
     print(summary)
-    print("-----")
-    print("Parsed classification:")
-    classif = {
-        "sup": meta.supported,
-        "category": meta.category,
-        "summary": meta.short_summary,
-    }
-    print(classif)
-    return summary, classif
+    return summary
 
 
 if __name__ == "__main__":
@@ -127,7 +111,8 @@ if __name__ == "__main__":
         # wipe out file
         pass
 
-    print(">>>> begin <<<<")
+    print(">>>>>>>> BEGIN <<<<<<<<")
+    print(">>>>>>>>>>>>>>>>>>>>>>>")
 
     chunk = []
     chunk_size = 16
@@ -154,10 +139,9 @@ if __name__ == "__main__":
         mr: dict
         # if i == 12:
         #     break
-        summary, classif = summarize_merge_request(client, mr)
+        summary = summarize_merge_request(client, mr)
         mr["summary"] = summary
-        mr["classif"] = classif
-        mr["author"] = mr["author"]["name"]
+        mr["author"] = {key: mr["author"][key] for key in ("name", "username")}
         print("-" * 60 + "\n")
         chunk.append(mr)
         count_processed += 1
