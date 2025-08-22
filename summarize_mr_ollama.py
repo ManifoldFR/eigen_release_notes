@@ -2,8 +2,6 @@ import orjson
 import jsonl
 import ollama
 import argparse
-from pydantic import BaseModel
-from typing import Literal
 
 client = ollama.Client()
 # MODEL_NAME = "qwen2.5:3b-instruct-q5_K_M"
@@ -33,32 +31,6 @@ The structured summary is of the following form and has the sections:
 ### Impact:
 <impact>
 """
-# """
-# JSON output field 'short_summary' is a one-line short summary, like a line in a set of release notes.
-# Prefer starting with a non-conjugated verb or past tense say "Fix" or "Fixed" instead of "Fixes":
-#   - Implemented consistent default forwarding behavior for packet min/max operations with different NaN propagation modes
-#   - Fix ARM32 float division accuracy and related numerical stability issues through improved reciprocal calculations
-
-# For the fields 'supported' and 'category':
-# You will classify the MR by support status ('supported', 'unsupported') and category ('major_changes', 'breaking_changes', 'other_improved', 'other_fixed', 'other_added', 'other_removed').
-#   - 'supported' or 'unsupported' means whether the changes affect supported or unsupported modules (e.g. changes to Eigen's tensor module in `<unsupported/Eigen/CXX11/Tensor>`, or the threadpools, etc).
-#   - 'major_changes' means "Highlights big new features"
-#   - 'breaking_changes' means "Big breaks most users should be aware of".
-# """
-
-
-class MyResponse(BaseModel):
-    md_text: str
-    supported: Literal["supported", "unsupported"]
-    category: Literal[
-        "major_changes",
-        "breaking_changes",
-        "other_improved",
-        "other_fixed",
-        "other_added",
-        "other_removed",
-    ]
-    short_summary: str
 
 
 def get_completion(prompt: str, *, system_prompt="", prefill=""):
