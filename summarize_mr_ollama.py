@@ -2,11 +2,14 @@ import orjson
 import jsonl
 import ollama
 import argparse
+import re
+from rich.progress import track
 
 client = ollama.Client()
-# MODEL_NAME = "qwen2.5:3b-instruct-q5_K_M"
 # MODEL_NAME = "qwen3:4b-instruct"
 MODEL_NAME = "qwen3:1.7b"
+
+thinking_pattern = re.compile(r"<think>.*?</think>", re.DOTALL)
 
 SYSTEM_PROMPT = """You are a merge request summarization and categorization assistant for a C++ linear algebra library.
 
@@ -49,7 +52,29 @@ def get_completion(prompt: str, *, system_prompt="", prefill=""):
     return response.message
 
 
-def summarize_merge_request(client: ollama.Client, mr):
+def format_paths(diff):
+    """Format high-level changed file info."""
+    # from pprint import pformat
+    # diff = {
+    #     key: diff[key]
+    #     for key in ["new_path", "old_path", "new_file", "renamed_file", "deleted_file"]
+    # }
+    s = "<change>\n"
+    if diff["deleted_file"]:
+        s += f"  DELETED file {diff['old_path']}"
+    elif diff["new_file"]:
+        s += f"  ADDED FILE {diff['new_path']}"
+    elif diff["renamed_file"]:
+        s += f"  RENAMED FILE {diff['old_path']} to {diff['new_path']}"
+    else:
+        s += f"  MODIFIED FILE {diff['old_path']}"
+
+    # s += pformat(diff, indent=2)
+    s += "\n</change>"
+    return s
+
+
+def summarize_merge_request(mr):
     # Construct the instructions (prompt) for the summarization.
     _author = mr["author"]
     input_v = (
@@ -57,12 +82,18 @@ def summarize_merge_request(client: ollama.Client, mr):
         f"<title>{mr.get('title', 'NA')}</title>\n"
         f"<author>{_author['name']} ({_author['username']})</author>\n"
         f"<labels>{mr.get('labels', 'NA')}</labels>\n"
-        f"<description>{mr.get('description', 'NA')}</description>\n"
+        f"<description>{mr.get('description', 'NA')}\n</description>\n"
     )
+    input_v += "<changes>\n"
+    for diff in mr["changes"]:
+        input_v += format_paths(diff)
+    input_v += "\n<changes>\n"
 
     message = get_completion(input_v, system_prompt=SYSTEM_PROMPT)
     print(f"Parsed summary for MR#{mr['iid']}:")
-    summary = message.content.rstrip()
+    summary = message.content.strip()
+    summary = thinking_pattern.sub("", summary).strip()
+
     print(summary)
     return summary
 
@@ -84,6 +115,7 @@ if __name__ == "__main__":
         pass
 
     print(">>>>>>>> BEGIN <<<<<<<<")
+    print(">>>>>>>> MODEL NAME: {}".format(MODEL_NAME))
     print(">>>>>>>>>>>>>>>>>>>>>>>")
 
     chunk = []
@@ -107,11 +139,12 @@ if __name__ == "__main__":
             jsonl.dump(chunk, fp, text_mode=False, json_dumps=orjson.dumps)
 
     # Process each merge request to get its summary
-    for i, mr in enumerate(mrs):
+    i = 0
+    for mr in track(mrs, "Summarizing MRs..."):
         mr: dict
         # if i == 12:
         #     break
-        summary = summarize_merge_request(client, mr)
+        summary = summarize_merge_request(mr)
         mr["summary"] = summary
         mr["author"] = {key: mr["author"][key] for key in ("name", "username")}
         print("-" * 60 + "\n")
@@ -121,6 +154,7 @@ if __name__ == "__main__":
         if len(chunk) % chunk_size == 0:
             append_chunk_dump(chunk)
             chunk.clear()
+        i += 1
 
     # finish
     append_chunk_dump(chunk)
