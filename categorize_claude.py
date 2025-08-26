@@ -84,9 +84,8 @@ if __name__ == "__main__":
         print("CATEGORY:", resp.category)
         line.update(resp.model_dump())
         mr_id = line["iid"]
-        line_content = "[#{iid}]({url}): {summary}".format(
-            iid=mr_id, url=line["web_url"], summary=short_summary
-        )
+        mr_url = line["web_url"]
+        line_content = f"[!{mr_id}]({mr_url}): {short_summary}"
         categorised_mrs[resp.sup][resp.category].append(line_content)
         num_lines += 1
         # if num_lines == 10:

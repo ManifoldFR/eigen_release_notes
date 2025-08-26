@@ -1,3 +1,4 @@
+import typing
 from mdutils.mdutils import MdUtils
 from typing import Any, Literal
 from pydantic import BaseModel
@@ -66,16 +67,19 @@ def format_changed_files(diff: dict):
     return s
 
 
+CategoryType = Literal[
+    "breaking_changes",
+    "major_changes",
+    "other_improved",
+    "other_fixed",
+    "other_added",
+    "other_removed",
+]
+
+
 class Classif(BaseModel):
     sup: Literal["supported", "unsupported"]
-    category: Literal[
-        "major_changes",
-        "breaking_changes",
-        "other_improved",
-        "other_fixed",
-        "other_added",
-        "other_removed",
-    ]
+    category: CategoryType
 
 
 def write_structured_md(categorised_mrs, output_file: str):
@@ -84,7 +88,8 @@ def write_structured_md(categorised_mrs, output_file: str):
     md_file.new_header(level=2, title="5.0")
 
     def add_changes_to_md(change_set: dict[str, Any]):
-        for key, sublist in change_set.items():
+        for key in typing.get_args(CategoryType):
+            sublist = change_set[key]
             title = key.capitalize().replace("_", " ")
             md_file.new_header(level=4, title=title)
             md_file.new_list(sublist)
